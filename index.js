@@ -5,11 +5,6 @@ function debounce(func, delay) {
     timer = setTimeout(() => func.apply(this, args), delay);
   };
 }
-let target;
-const appElement = document.querySelector(".app");
-appElement.addEventListener("click", function (event) {
-  target = event.target;
-});
 
 class Search {
   constructor() {
@@ -47,12 +42,14 @@ const debouncedLog = debounce(async function () {
     await processTemplate();
   }
 }, 400);
+
 const inputElement = document.querySelector(".input");
 
 inputElement.addEventListener("input", function (event) {
   currentValue = event.target.value;
   if (currentValue.trim()) {
     debouncedLog();
+    console.log(currentValue);
     return search.open();
   }
   search.clouse();
@@ -77,9 +74,7 @@ async function searchRepozit() {
           ul.appendChild(li);
         });
       }
-
       renderResults(newdata);
-
       return data;
     }
   } catch (error) {
@@ -89,14 +84,20 @@ async function searchRepozit() {
 
 async function processTemplate() {
   const data = await searchRepozit();
-  if (target.classList.contains("options")) {
-    const listItems = Array.from(appElement.querySelectorAll(".options"));
-    const index = listItems.indexOf(target);
-    const selectedItem = data.items[index];
-    search.clouse();
-    const selectedInstance = new Selected(selectedItem);
-    clouseTemplate();
-  }
+  console.log(data.items);
+  const listItems = document.querySelectorAll(".options");
+  listItems.forEach((item, index) => {
+    item.addEventListener("click", function (event) {
+      const clickedElement = data.items[index];
+      console.log(clickedElement);
+      inputElement.value = "";
+      search.clouse();
+      new Selected(clickedElement);
+      clouseTemplate();
+      const ul = document.querySelector("ul");
+      ul.innerHTML = "";
+    });
+  });
 }
 
 class Selected {
@@ -135,6 +136,7 @@ class Selected {
   static updateStyles() {
     const app = document.querySelector(".app");
     const selectedElements = app.querySelectorAll(".selected");
+
     selectedElements.forEach((item, index) => {
       item.style.marginTop = index === 0 ? "45px" : "0";
     });
@@ -142,11 +144,13 @@ class Selected {
 }
 async function clouseTemplate() {
   const clouseListItems = document.querySelectorAll(".clouse");
-  if (target.classList.contains("clouse")) {
-    const parentElement = item.parentElement;
-    if (parentElement) {
-      parentElement.remove();
-      Selected.updateStyles();
-    }
-  }
+  clouseListItems.forEach((item, index) => {
+    item.addEventListener("click", function (event) {
+      const parentElement = item.parentElement;
+      if (parentElement) {
+        parentElement.remove();
+        Selected.updateStyles();
+      }
+    });
+  });
 }
