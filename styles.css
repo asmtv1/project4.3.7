@@ -1,0 +1,85 @@
+.app {
+  width: 650px;
+  height: auto;
+  margin: 50px auto;
+  background-color: #f4f4f4;
+  padding-bottom: 72px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+.input {
+  margin-top: 62px;
+  margin-inline: 84px;
+  width: 500px;
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid #000;
+}
+.dropDown {
+  display: none;
+  padding: 0;
+  margin-inline: 84px;
+  width: 500px;
+  border: 1px solid #000;
+  border-top: none;
+}
+
+.options {
+  display: block;
+  padding: 10px;
+  background-color: #e0e0e0;
+  border-bottom: 1px solid #000;
+  font-size: 16px;
+}
+
+.options:last-child {
+  border-bottom: none;
+}
+
+.options:hover {
+  background-color: #a0d7ff;
+}
+
+.open {
+  .dropDown {
+    display: block;
+  }
+}
+.selected {
+  background: #e27beb;
+  margin-inline: 84px;
+  font-size: 20px;
+  border: 1px solid #000;
+  width: 500px;
+  height: 100px;
+  margin-top: 45px;
+}
+.clouse {
+  position: relative;
+  margin-top: 31px;
+  margin-left: 430px;
+  width: 46px;
+  height: 42px;
+  background-image: url('data:image/svg+xml,<svg width="46" height="42" viewBox="0 0 46 42" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 40.5L44 2" stroke="%23FF0000" stroke-width="4" /></svg>'); /* Первое SVG */
+  background-size: cover;
+}
+
+.clouse::before {
+  content: "";
+  display: block;
+  width: 46px;
+  height: 42px;
+  background-image: url('data:image/svg+xml,<svg width="46" height="42" viewBox="0 0 46 42" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44 40.5L2 2" stroke="%23FF0000" stroke-width="4" /></svg>'); /* Второе SVG */
+  background-size: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 75%;
+  top: -73px;
+  margin-left: 16px;
+}
