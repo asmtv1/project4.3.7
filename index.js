@@ -5,6 +5,12 @@ function debounce(func, delay) {
     timer = setTimeout(() => func.apply(this, args), delay);
   };
 }
+function addClickListenerToApp(callback) {
+  const appContainer = document.querySelector(".app");
+  if (appContainer) {
+    appContainer.addEventListener("click", callback);
+  } 
+}
 
 class Search {
   constructor() {
@@ -49,7 +55,6 @@ inputElement.addEventListener("input", function (event) {
   currentValue = event.target.value;
   if (currentValue.trim()) {
     debouncedLog();
-    console.log(currentValue);
     return search.open();
   }
   search.clouse();
@@ -84,19 +89,18 @@ async function searchRepozit() {
 
 async function processTemplate() {
   const data = await searchRepozit();
-  console.log(data.items);
   const listItems = document.querySelectorAll(".options");
-  listItems.forEach((item, index) => {
-    item.addEventListener("click", function (event) {
+  addClickListenerToApp((event) => {
+    const index = Array.from(listItems).indexOf(event.target);
+    if (index !== -1) {
       const clickedElement = data.items[index];
-      console.log(clickedElement);
       inputElement.value = "";
       search.clouse();
       new Selected(clickedElement);
       clouseTemplate();
       const ul = document.querySelector("ul");
       ul.innerHTML = "";
-    });
+    }
   });
 }
 
@@ -144,13 +148,16 @@ class Selected {
 }
 async function clouseTemplate() {
   const clouseListItems = document.querySelectorAll(".clouse");
-  clouseListItems.forEach((item, index) => {
-    item.addEventListener("click", function (event) {
+
+  addClickListenerToApp((event) => {
+    const index = Array.from(clouseListItems).indexOf(event.target);
+    if (index !== -1) {
+      const item = clouseListItems[index];
       const parentElement = item.parentElement;
       if (parentElement) {
         parentElement.remove();
         Selected.updateStyles();
       }
-    });
+    }
   });
 }
